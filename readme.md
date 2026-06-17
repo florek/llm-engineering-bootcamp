@@ -73,8 +73,26 @@ Kurs nie wymaga zaawansowanej matematyki ani wcześniejszego doświadczenia z Ma
 
 ```text
 src/          # kod, ćwiczenia i projekty z kursu
-docs/         # notatki i podsumowania wiedzy
+src/docs/     # notatki i podsumowania wiedzy z kursu
 docs/quiz/    # quizy utrwalające materiał
+```
+
+## Ćwiczenia
+
+### `src/p2.py` — streszczenie strony przez Ollamę
+
+Skrypt pobiera treść wskazanej strony WWW, czyści HTML i wysyła ją do lokalnego modelu `llama3.2` przez Ollamę.
+
+Wymagania:
+
+* uruchomiona Ollama (`ollama serve`),
+* pobrany model: `ollama pull llama3.2`
+
+Uruchomienie:
+
+```bash
+python src/p2.py
+python src/p2.py https://example.com
 ```
 
 ## Status
