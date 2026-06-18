@@ -10,7 +10,7 @@ Ollama to narzędzie do uruchamiania modeli językowych open-source lokalnie na 
 2. Uruchom serwer: `ollama serve` (domyślnie nasłuchuje na porcie **11434**).
 3. Pobierz model: `ollama pull llama3.2` (lub inny, np. `deepseek-r1:1.5b`).
 
-Serwer musi działać, zanim wywołasz go z kodu Pythona.
+Serwer musi działać, zanim wywołasz go z kodu Pythona. Można to sprawdzić prostym żądaniem HTTP na `http://localhost:11434` — jeśli serwer nie odpowiada, kolejne wywołania z kodu też się nie powiodą.
 
 ## Endpoint API
 

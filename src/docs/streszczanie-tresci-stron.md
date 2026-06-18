@@ -23,7 +23,7 @@ Rozwiązanie: obcięcie tekstu przed wysłaniem, np. do **12 000 znaków**:
 truncated = page_text[:MAX_CONTENT_CHARS]
 ```
 
-Obcięcie jest proste, ale skuteczne na start. W produkcji lepsze strategie to chunking (podział na fragmenty), map-reduce (streszczenie partiami) lub RAG (wyszukiwanie najistotniejszych fragmentów).
+Obcięcie od początku strony jest proste, ale skuteczne na start — końcówka długiego artykułu wówczas ginie. W produkcji lepsze strategie to chunking (podział na fragmenty), map-reduce (streszczenie partiami) lub RAG (wyszukiwanie najistotniejszych fragmentów).
 
 ## Prompt engineering dla streszczenia
 

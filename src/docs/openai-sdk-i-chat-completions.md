@@ -46,7 +46,7 @@ Każda wiadomość ma pole `role` i `content`:
 | `user` | Pytanie lub dane od użytkownika. |
 | `assistant` | Poprzednie odpowiedzi modelu (historia konwersacji). |
 
-Typowy wzorzec dla zadań produkcyjnych: najpierw `system` (reguły), potem `user` (dane wejściowe).
+Typowy wzorzec dla zadań produkcyjnych: najpierw `system` (reguły), potem `user` (dane wejściowe). Rola `assistant` służy do przekazywania poprzednich odpowiedzi modelu, gdy budujesz historię wieloetapowej konwersacji.
 
 ## Przełączanie modeli
 

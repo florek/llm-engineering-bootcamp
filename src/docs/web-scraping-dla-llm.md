@@ -2,7 +2,7 @@
 
 ## Po co scraping w LLM Engineering
 
-Modele językowe nie mają dostępu do internetu w czasie rzeczywistym (chyba że używasz narzędzi/agentów). Aby model „wiedział" o treści strony WWW, trzeba ją najpierw pobrać, oczyścić z HTML i przekazać jako tekst w prompcie. To pierwszy krok w generatorze broszur firmowych i w wielu pipeline'ach RAG.
+Modele językowe nie mają dostępu do internetu w czasie rzeczywistym (chyba że używasz narzędzi/agentów). Aby model „wiedział" o treści strony WWW, trzeba ją najpierw pobrać, oczyścić z HTML i przekazać jako tekst w prompcie — to podstawowy wzorzec integracji danych zewnętrznych z LLM. Stosuje się go w generatorze broszur firmowych i w wielu pipeline'ach RAG.
 
 ## Pobieranie strony — requests
 
