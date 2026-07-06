@@ -73,8 +73,9 @@ Kurs nie wymaga zaawansowanej matematyki ani wcześniejszego doświadczenia z Ma
 
 ```text
 src/          # kod, ćwiczenia i projekty z kursu
-src/docs/     # notatki i podsumowania wiedzy z kursu
+docs/         # notatki i podsumowania wiedzy z kursu
 docs/quiz/    # quizy utrwalające materiał
+src/docs/     # kopia robocza notatek (zsynchronizowana z docs/)
 ```
 
 ## Ćwiczenia
