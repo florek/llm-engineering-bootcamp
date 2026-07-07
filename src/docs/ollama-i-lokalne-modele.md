@@ -12,6 +12,13 @@ Ollama to narzędzie do uruchamiania modeli językowych open-source lokalnie na 
 
 Serwer musi działać, zanim wywołasz go z kodu Pythona. Można to sprawdzić prostym żądaniem HTTP na `http://localhost:11434` — jeśli serwer nie odpowiada, kolejne wywołania z kodu też się nie powiodą.
 
+## Różnica między `ollama serve` a `ollama pull`
+
+- **`ollama serve`** — uruchamia lokalny serwer HTTP nasłuchujący na żądania API; sam nie pobiera wag modeli.
+- **`ollama pull <model>`** — pobiera pliki wag wybranego modelu na dysk; bez tego wywołanie `chat.completions` zwróci błąd, bo model nie jest dostępny lokalnie.
+
+Oba kroki są niezależne: najpierw uruchamiasz serwer, potem pobierasz potrzebne modele (lub odwrotnie — ważne, że oba są wykonane przed pierwszym wywołaniem z kodu).
+
 ## Endpoint API
 
 Ollama wystawia endpoint kompatybilny z OpenAI Chat Completions pod adresem:

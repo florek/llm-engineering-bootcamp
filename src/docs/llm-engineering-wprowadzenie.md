@@ -15,7 +15,7 @@ Modele **open-source** można uruchamiać lokalnie (np. przez Ollamę). Dają ko
 - **Inference** — podstawowe wywołanie modelu (chat completion).
 - **RAG** (Retrieval-Augmented Generation) — wzbogacanie odpowiedzi modelu o dane z zewnętrznych źródeł (dokumenty, bazy wektorowe, embeddings).
 - **Fine-tuning** — dostosowanie wag modelu do konkretnego zadania (np. QLoRA dla modeli open-source).
-- **Function calling** — model decyduje, kiedy wywołać zewnętrzną funkcję/narzędzie.
+- **Function calling** — model decyduje, kiedy wywołać zewnętrzną funkcję lub narzędzie.
 - **AI Agents** — autonomiczne systemy łączące LLM z narzędziami, pamięcią i pętlą planowania.
 - **Multimodal AI** — modele przetwarzające tekst, obraz, audio itd.
 
@@ -52,3 +52,21 @@ Wzorzec powtarzany w ćwiczeniach kursu:
 4. Odczytaj i zwróć wynik z odpowiedzi.
 
 Ten schemat skaluje się od jednego streszczenia do RAG, agentów i systemów produkcyjnych.
+
+## Modularność pipeline'u
+
+W ćwiczeniach kursu warstwy pipeline'u są rozdzielane na osobne funkcje lub moduły:
+
+- **warstwa danych** — pobranie i oczyszczenie tekstu ze źródła zewnętrznego,
+- **warstwa LLM** — zbudowanie promptu i wywołanie modelu,
+- **warstwa orchestracji** — walidacja wejścia, obsługa argumentów CLI, łączenie kroków w `main()`.
+
+Taki podział ułatwia testowanie (np. mockowanie pobrania strony bez wywoływania modelu), ponowne użycie logiki i rozbudowę pipeline'u w kierunku RAG lub agentów bez przepisywania całego skryptu.
+
+## Embeddings i bazy wektorowe
+
+W RAG tekst dzieli się na fragmenty, zamienia na wektory liczbowe (**embeddings**) i zapisuje w **bazie wektorowej**. Przy zapytaniu użytkownika system wyszukuje najbardziej podobne fragmenty i dołącza je do promptu modelu. To rozwiązanie problemu ograniczonego okna kontekstu — zamiast obcinać dokument, model dostaje tylko istotne partie treści.
+
+## Inference
+
+**Inference** to podstawowe wywołanie wytrenowanego modelu: wysłanie promptu i odczytanie odpowiedzi. Jest punktem wyjścia całej ścieżki nauki — od prostego chat completion po RAG, fine-tuning i agenty.

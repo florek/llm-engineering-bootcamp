@@ -15,6 +15,10 @@ client = OpenAI(
 
 Parametr `api_key` jest wymagany przez SDK, ale Ollama go nie weryfikuje — wystarczy dowolna wartość (np. `"ollama"`).
 
+## Weryfikacja połączenia z serwerem
+
+Przed pierwszym wywołaniem chat completion warto sprawdzić, czy serwer Ollama odpowiada — np. prostym żądaniem HTTP na `http://localhost:11434`. Jeśli serwer nie działa, wywołanie `client.chat.completions.create()` zakończy się błędem połączenia niezależnie od poprawności reszty kodu.
+
 ## Chat Completions
 
 Główna metoda to `client.chat.completions.create()`:

@@ -60,6 +60,15 @@ url = sys.argv[1] if len(sys.argv) > 1 else DEFAULT_URL
 
 Bez argumentu używany jest domyślny adres (strona o sztucznej inteligencji na polskiej Wikipedii).
 
+## Walidacja i obsługa błędów
+
+Pipeline streszczania sprawdza poprawność danych na dwóch etapach:
+
+- **walidacja URL** — przed pobraniem strony; nieprawidłowy adres (brak scheme lub netloc) kończy się wyjątkiem `ValueError`,
+- **walidacja treści** — po pobraniu i czyszczeniu HTML; pusty tekst (strona zablokowana, SPA, błąd serwera) również kończy się `ValueError` zamiast wysyłania pustego promptu do modelu.
+
+Odpowiedź modelu jest bezpiecznie odczytywana przez `response.choices[0].message.content or ""`, bo pole `content` może być `None`.
+
 ## Związek z RAG i generatorami broszur
 
 Streszczanie pojedynczej strony to uproszczona wersja pipeline'u generatora broszur:

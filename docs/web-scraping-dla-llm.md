@@ -40,7 +40,7 @@ for tag in soup(["script", "style", "noscript"]):
 - `style` — definicje CSS.
 - `noscript` — treść alternatywna bez JS.
 
-Metoda `decompose()` usuwa tag wraz z dziećmi z drzewa DOM.
+Metoda `decompose()` usuwa tag wraz z dziećmi z drzewa DOM — w przeciwieństwie do samego wyciągnięcia tekstu, całkowicie wycina te elementy ze struktury HTML przed ekstrakcją treści.
 
 ## Ekstrakcja tekstu
 
