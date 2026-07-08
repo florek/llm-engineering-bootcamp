@@ -1,5 +1,15 @@
 # Streszczanie treści stron WWW przez LLM
 
+## Podział na funkcje
+
+Pipeline streszczania w ćwiczeniu jest rozdzielony na osobne funkcje:
+
+- **pobieranie i czyszczenie** — osobna funkcja przyjmuje URL, zwraca czysty tekst strony; nie wywołuje modelu,
+- **streszczanie** — osobna funkcja przyjmuje tekst i URL, buduje prompt i wywołuje model,
+- **orchestracja** — funkcja `main()` waliduje wejście, tworzy klienta, łączy kroki i wypisuje wynik.
+
+Taki podział pozwala testować warstwę danych bez wywoływania LLM (np. mockowanie pobrania strony) i ponownie używać logiki scrapingu w innych pipeline'ach.
+
 ## Pipeline streszczania
 
 Typowy przepływ w ćwiczeniu streszczania strony:

@@ -68,7 +68,7 @@ Wymagane są scheme (np. `https`) i netloc (domena). Sam string bez protokołu n
 
 ## Obsługa pustej treści
 
-Po pobraniu i czyszczeniu sprawdź, czy tekst nie jest pusty — strona może być pusta, zablokowana lub oparta wyłącznie o JavaScript renderowany po stronie klienta.
+Po pobraniu i czyszczeniu sprawdź, czy tekst nie jest pusty — strona może być pusta, zablokowana lub oparta wyłącznie o JavaScript renderowany po stronie klienta. Pusty wynik powinien zakończyć się wyjątkiem (np. `ValueError`) zamiast wysyłania pustego promptu do modelu — model bez danych wejściowych może wygenerować halucynację.
 
 ## Pułapki
 

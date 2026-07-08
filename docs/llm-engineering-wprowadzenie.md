@@ -15,7 +15,7 @@ Modele **open-source** można uruchamiać lokalnie (np. przez Ollamę). Dają ko
 - **Inference** — podstawowe wywołanie modelu (chat completion).
 - **RAG** (Retrieval-Augmented Generation) — wzbogacanie odpowiedzi modelu o dane z zewnętrznych źródeł (dokumenty, bazy wektorowe, embeddings).
 - **Fine-tuning** — dostosowanie wag modelu do konkretnego zadania (np. QLoRA dla modeli open-source).
-- **Function calling** — model decyduje, kiedy wywołać zewnętrzną funkcję lub narzędzie.
+- **Function calling** — model decyduje, kiedy wywołać zewnętrzną funkcję lub narzędzie. W przeciwieństwie do zwykłego inference (tylko tekst na wyjściu), function calling pozwala modelowi zwrócić strukturalne żądanie wywołania narzędzia — np. pobrania danych z API, zapisu do bazy lub uruchomienia kalkulacji. To fundament agentów AI i integracji LLM z zewnętrznymi systemami.
 - **AI Agents** — autonomiczne systemy łączące LLM z narzędziami, pamięcią i pętlą planowania.
 - **Multimodal AI** — modele przetwarzające tekst, obraz, audio itd.
 

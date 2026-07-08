@@ -80,6 +80,21 @@ src/docs/     # kopia robocza notatek (zsynchronizowana z docs/)
 
 ## Ćwiczenia
 
+### `src/p1.py` — podstawowe inference przez Ollamę
+
+Skrypt sprawdza połączenie z serwerem Ollama i wywołuje chat completion dla dwóch modeli (`llama3.2`, `deepseek-r1:1.5b`) tym samym klientem OpenAI SDK.
+
+Wymagania:
+
+* uruchomiona Ollama (`ollama serve`),
+* pobrane modele: `ollama pull llama3.2`, `ollama pull deepseek-r1:1.5b`
+
+Uruchomienie:
+
+```bash
+python src/p1.py
+```
+
 ### `src/p2.py` — streszczenie strony przez Ollamę
 
 Skrypt pobiera treść wskazanej strony WWW, czyści HTML i wysyła ją do lokalnego modelu `llama3.2` przez Ollamę.

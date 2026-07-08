@@ -56,6 +56,19 @@ Typowy wzorzec dla zadań produkcyjnych: najpierw `system` (reguły), potem `use
 
 Zmiana modelu to tylko parametr `model` — reszta kodu (klient, messages, parsowanie odpowiedzi) pozostaje bez zmian. Można testować `llama3.2`, `deepseek-r1:1.5b` itd. bez refaktoryzacji. To ułatwia porównywanie jakości i szybkości różnych modeli open-source na tym samym zadaniu.
 
+Ten sam obiekt klienta (`OpenAI`) obsługuje kolejne wywołania z różnymi modelami — wystarczy zmienić wartość `model` w kolejnym `chat.completions.create()`. Nie trzeba tworzyć nowego klienta ani zmieniać `base_url`.
+
+## Podstawowe ćwiczenie inference
+
+Najprostszy przepływ w kursie:
+
+1. Sprawdź, czy serwer Ollama odpowiada (żądanie HTTP na port 11434).
+2. Utwórz klienta OpenAI SDK z lokalnym `base_url`.
+3. Wywołaj `chat.completions.create()` z jedną wiadomością `user`.
+4. Odczytaj `response.choices[0].message.content`.
+
+To punkt wyjścia przed budowaniem pipeline'ów ze scrapowaniem, RAG i agentami.
+
 ## Pułapki
 
 - Zapomnienie o `base_url` — SDK połączy się z chmurą OpenAI i wymaga prawdziwego klucza API.
