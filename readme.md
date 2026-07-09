@@ -9,7 +9,8 @@ Celem projektu jest praktyczne poznanie budowania aplikacji opartych o modele j�
 Repozytorium obejmuje ćwiczenia i projekty związane z praktycznym LLM engineeringiem:
 
 * Generative AI,
-* modele frontier i open-source,
+* modele frontier i open-source (chat, reasoning, hybrid, base),
+* porównywanie modeli i balans jakość–cena–szybkość,
 * Hugging Face,
 * LangChain,
 * Gradio,

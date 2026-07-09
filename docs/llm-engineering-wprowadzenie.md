@@ -6,9 +6,20 @@ LLM Engineering to praktyczne budowanie aplikacji opartych o modele językowe (L
 
 ## Frontier vs open-source
 
-Modele **frontier** to największe, najmocniejsze modele komercyjne (np. GPT, Claude), dostępne przez API w chmurze. Wymagają klucza API i generują koszty per token.
+Modele **frontier** to największe, najmocniejsze modele komercyjne (np. GPT, Claude, Gemini), dostępne przez API w chmurze. Wymagają klucza API i generują koszty per token. Są wyjątkowo dobre w rozumieniu niuansów i syntezie informacji, ale ranking „najlepszego" modelu szybko się zmienia.
 
-Modele **open-source** można uruchamiać lokalnie (np. przez Ollamę). Dają kontrolę nad danymi, brak opłat za tokeny i możliwość fine-tuningu, ale wymagają własnego sprzętu i mają zwykle mniejsze możliwości niż frontier.
+Modele **open-source** można uruchamiać lokalnie (np. przez Ollamę) lub na platformach inference. Dają kontrolę nad danymi, brak lub niższe opłaty za tokeny i możliwość fine-tuningu, ale wymagają własnego sprzętu lub infrastruktury i mają zwykle mniejsze możliwości niż frontier.
+
+Gdy topowe modele zbliżają się jakościowo, w produkcji coraz ważniejsze stają się **cena i szybkość** — trzeba świadomie balansować inteligencję, koszt i latency.
+
+## Typy modeli
+
+- **Chat** — dostrojony do dialogu; szybkie odpowiedzi konwersacyjne.
+- **Reasoning** — więcej wewnętrznego rozumowania; lepszy w złożonych zadaniach, ale wolniejszy.
+- **Hybrid** — łączy chat i reasoning; model decyduje, kiedy myśleć dłużej.
+- **Base** — model bazowy bez dostrojenia do rozmowy; wymaga instrukcji lub fine-tuningu do formatu chat.
+
+Prosty trik: poproś model o **wyjaśnienie strategii** przed działaniem — wymusza to głębszy tryb rozumowania i ułatwia audyt odpowiedzi.
 
 ## Główne obszary kursu
 

@@ -1,0 +1,325 @@
+And again, this course is not about using these end tools.
+
+This is about building our own.
+
+We're going to be building tools like ChatGPT and then taking them off in different directions, giving
+
+them expertise.
+
+But I wanted to show it to you, to give you that hands on feel for them.
+
+If you're interested in using any of these, I'll put links to all of them in the resources, including,
+
+of course, Claude code, should you wish.
+
+I love Claude code.
+
+Uh, but but of course, cursor agents also.
+
+Great.
+
+Um, but, uh, yeah, the the bottom line is that all of the frontier models are insanely strong.
+
+Uh, really?
+
+It just it's mind blowing.
+
+Uh, very good at nuance, at synthesizing information.
+
+Um, Claude happens to often be people's favorite.
+
+It's my favorite.
+
+Uh, I don't know why.
+
+People in the community, for various reasons, have grown very fond of Claude.
+
+Um, but, uh, yeah, we'll we'll see, uh, leaderboards later and compare some of these models.
+
+And right now, GPT five is probably considered the most powerful model on the planet.
+
+And one of the things that's interesting is that as they converge on their capabilities, price and
+
+also speed is becoming more and more important.
+
+And we'll see how you can trade off intelligence and price and look for something that's at the sweet
+
+spot for your business requirements.
+
+In later weeks.
+
+Okay.
+
+So that's that's sort of wrapping up our exploration of frontier models.
+
+But there is one more thing I wanted to show you.
+
+So we didn't do a lab today, but I have the next best thing.
+
+I have a demo to give you of something that I built that you can see the code and the results for yourself,
+
+but I'm going to go to my web page is my website at madonna.com.
+
+And I wrote a game called Outsmart.
+
+And Outsmart is a way to have Llms compete, to try and and outwit each other in a very ugly game of
+
+cleverness.
+
+There's there's four players Alex, Blake, Charlie and Drew named so it could be A, B, C, D and
+
+on my website.
+
+Alex is played by GPT four, oh, Blake by Claude, three sonnet, Charlie, Gemini two, flash, and
+
+drew by Deep Sega.
+
+Small version.
+
+In llama 70 B, these are the four and they play a game and they play a game where they each start with
+
+12 coins, as you see here.
+
+And every time, every turn, they get to choose to take a coin from one player and give a coin to another
+
+player.
+
+But before they make their decision on which player that they will do that with, they get to exchange
+
+a message with all of the other players to talk about, to try and sort of set up how they're going
+
+to to be be both a diplomatic and scheming and negotiate who gets what money.
+
+And if two of them both gang up on the same player and they both give each other money, then they're
+
+said to be in an alliance together.
+
+That's an extra special move.
+
+If they do that, and if so, they win extra coins and they take extra from the person that they ganged
+
+up on.
+
+So it gives them the ability to try and scheme and form alliances with each other.
+
+And the thing that's going to be kind of cool about it is that they will get to tell us their inner
+
+thoughts, and we'll get to see the messages they send each other.
+
+Doesn't that sound fun?
+
+I found this to be a great way to get insight into what these models can do and how they behave.
+
+But it wouldn't be that fun if we were playing these models against each other, because I'm being a
+
+bit bit cheap and I'm not putting the most expensive models out there on the internet for anyone to
+
+play, because people play these games a lot.
+
+I get like a 4 or 5 games played a day.
+
+Uh, but let's flip to where I have this running locally and running locally.
+
+Everybody I have in Alex and Player A, I have GPT OS 120, the new open source version of GPT running
+
+on the cloud, because my computer's not big enough, but that is open source GPT.
+
+In Blake, we have GPT five, the flagship model in Charlie we have grok for Elon Musk's model and in
+
+drew we have Claude Sonnet 4.5 that was released a matter of days ago.
+
+For me, this is also one of the strongest models on the planet for powerful competitors.
+
+And we are going to play a game of outsmart.
+
+And so I kicked the game off by pressing the run game button and off they go.
+
+Now, these latest models like GPT five, I'm not giving it a thinking budget, so it can take as long
+
+as it wants, and it does take a long time.
+
+They used this game, used to move pretty fast, but now it happens slowly.
+
+All four players get to think in parallel at the same time, but you'll see that GPT OS thought really
+
+fast.
+
+Uh, it's running on this platform called grok with a cue that we will look at another time, which
+
+is very quick.
+
+The others take much longer, and GPT five takes the longest of them all.
+
+And we'll see it waiting there for Blake to make its move.
+
+Now, while that's thinking, let me just tell you that the source code for all of this is available
+
+online so you can look at it.
+
+I've tried to build it in a way that's very easy to read and understand.
+
+This is called a Streamlit app.
+
+I use Streamlit most of this course.
+
+We're going to we're going to be looking at different UIs using something called Gradio, which I love,
+
+and which some other things I've built on my website are on, but this is a Streamlit app.
+
+I know there's a lot of fans of Streamlit out there, so you can see how I did that and it's busy running
+
+away.
+
+And if you go on to to the the arena, you can kick off runs.
+
+And because I'm using smaller models live on the internet, it does run faster.
+
+In fact we could yeah, we we could kick one off in just a second as well.
+
+But this is this is running.
+
+And as it completes each turn we'll be able to go in, look at what it's doing, look at what it's thinking
+
+and see its strategy.
+
+So I will come back in a second when the first move is complete.
+
+So the first move happened.
+
+And you'll see on the right here is this little chart to show you the money that everyone has on each
+
+move.
+
+And there's based on the very first move, the early winner is open source.
+
+Alex.
+
+GPT OS one TB hits the early lead, so you'll see here.
+
+Each of them tells us their strategy.
+
+I get each model to explain its strategy, form an alliance, withdrew by giving him a coin and taking
+
+from Charlie.
+
+If he reciprocates, we both get extra.
+
+Keep those neutral for now so you can read each of their strategies.
+
+First turn is about establishing trust and exploring alliance opportunities, says Claude.
+
+Um, and then if you open up this box here with inner thoughts, you can actually see the messages that
+
+they give each other, and you can read about their exactly what the schemes they're hatching in here,
+
+and see everything as it transpires.
+
+And you can see here that Alex and Drew are in alliance with each other, shown in green, and that
+
+Charlie Grok four, is being ganged up on by both of them.
+
+So with these big models, it's not quick.
+
+Uh, it takes a bit of time to run, but it's absolutely fascinating to see the results of their thought
+
+process, and it gives you some real insight into the kinds kinds of ways they work and the way they
+
+think.
+
+Because by making it give it strategy this way, we're sort of forcing it to be, uh, extra reasoning
+
+to put extra work into its thought process, to articulate its strategy.
+
+And that's a great trick for getting the most out of models, is to have them explain their strategy
+
+to really put them in this reasoning mode.
+
+Okay, I'm going to let this run for a few more turns.
+
+I will see you in a second.
+
+And a second turn has happened.
+
+And now GPT five is headed into the lead with 15 coins.
+
+Uh, with OpenAI's uh OSS.
+
+Alex dropping one point, uh, you can see that, uh, Blake and and Charlie are now in an alliance
+
+together, and they are, uh, also that so, so.
+
+But Charlie is the one that's in the worst position.
+
+But drew is the one that's being ganged up on.
+
+So Claude Sonnet 45 is being ganged up on by by both of these.
+
+So drew is in trouble.
+
+So it's great fun.
+
+I gotta tell you, I can get quite addicted to this and watch it for a long time, but that's not the
+
+point.
+
+The reason for doing this is so that you get some real hands on feel for the different characteristics
+
+of the models and for the abilities that llms have, and for this kind of mode of having them think
+
+through what they're doing and the kinds of problem solving that they can do, and look at how they
+
+interact with each other in this game.
+
+I hope you have fun with it.
+
+But now what I'm going to do is something super cruel.
+
+I'm not going to show you the outcome of this game, because we're going to leave that till tomorrow.
+
+We're going to wait until the next day before we discover who it is that is victorious, or will let
+
+this game play out.
+
+I'm going to see you back for the slides, for a quick wrap up and leave you hanging like like some
+
+some kind of cheap soap opera.
+
+Uh, until until we get to tomorrow.
+
+So see you for the wrap up.
+
+Well, I'm sorry to leave you hanging, but, look, take joy in the fact that you are 7.5% on your
+
+road to being a master already.
+
+You're already on this path and you learned so much.
+
+I know today we weren't actually looking at coding AI, which is what this is all about, but you've
+
+got deep perspective on what these things can do.
+
+In addition to being able to write code to call front end models and summarize, you can now talk about
+
+the strengths and some of the limitations of frontier models.
+
+You can compare and contrast them.
+
+You've got some intuition now for the differences between them and you certainly I imagine have a good
+
+sense of chat versus reasoning and also hybrid and even base models too.
+
+Tomorrow we're going to talk about the crazy rise of the transformer architecture.
+
+I'm going to give you some intuition for some of the latest developments like Agentic, AI, context
+
+engineering agent loops, and we're going to cover some of the foundational things, much of which you
+
+probably already know.
+
+But I hope to sprinkle in some extra juicy stuff that you don't know around tokens, context, windows
+
+parameters, and API costs.
+
+I can't wait.
+
+I'll see you then.
