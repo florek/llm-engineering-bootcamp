@@ -79,37 +79,31 @@ docs/quiz/    # quizy utrwalające materiał
 src/docs/     # kopia robocza notatek (zsynchronizowana z docs/)
 ```
 
-## Ćwiczenia
+## Ćwiczenia — Week 1 (do Day 4)
 
-### `src/p1.py` — podstawowe inference przez Ollamę
+Pliki z [ed-donner/llm_engineering/week1](https://github.com/ed-donner/llm_engineering/tree/main/week1) (Day 3 nie występuje w kursie).
 
-Skrypt sprawdza połączenie z serwerem Ollama i wywołuje chat completion dla dwóch modeli (`llama3.2`, `deepseek-r1:1.5b`) tym samym klientem OpenAI SDK.
+### `src/day1.ipynb`
 
-Wymagania:
+Pierwszy lab: setup środowiska, rozszerzenia Cursor, pierwsze wywołania LLM.
 
-* uruchomiona Ollama (`ollama serve`),
-* pobrane modele: `ollama pull llama3.2`, `ollama pull deepseek-r1:1.5b`
+### `src/day2.ipynb`
 
-Uruchomienie:
+Chat Completions API, promptowanie, streszczanie treści stron.
 
-```bash
-python src/p1.py
-```
+### `src/day4.ipynb`
 
-### `src/p2.py` — streszczenie strony przez Ollamę
+Tokenizacja (`tiktoken`) i praca z limitami kontekstu.
 
-Skrypt pobiera treść wskazanej strony WWW, czyści HTML i wysyła ją do lokalnego modelu `llama3.2` przez Ollamę.
+### `src/scraper.py`
 
-Wymagania:
+Helper do scrapowania stron (tytuł, treść, linki) używany w labach Week 1.
 
-* uruchomiona Ollama (`ollama serve`),
-* pobrany model: `ollama pull llama3.2`
-
-Uruchomienie:
+Uruchomienie notebooków:
 
 ```bash
-python src/p2.py
-python src/p2.py https://example.com
+jupyter notebook src/day1.ipynb
+# lub otwórz w Cursor / VS Code
 ```
 
 ## Status
