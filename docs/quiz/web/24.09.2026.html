@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Quiz LLM Engineering — 24.09.2026</title>
+<style>
+:root {
+  --bg: #f7f4ef;
+  --card: #ffffff;
+  --ink: #1c2420;
+  --muted: #5a6560;
+  --accent: #0f6b5c;
+  --accent-soft: #d8efe9;
+  --ok: #1b7a3d;
+  --ok-bg: #e7f6ec;
+  --bad: #a11f2c;
+  --bad-bg: #fdecee;
+  --learn: #1a5f7a;
+  --learn-bg: #e8f4f8;
+  --learn-border: #a8d0e0;
+  --border: #d9d2c8;
+  --shadow: 0 8px 24px rgba(28, 36, 32, 0.06);
+  --radius: 14px;
+  --mono: "IBM Plex Mono", "SFMono-Regular", ui-monospace, monospace;
+  --sans: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --display: "Fraunces", Georgia, serif;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: var(--sans);
+  color: var(--ink);
+  background:
+    radial-gradient(1200px 500px at 10% -10%, #e7f2ee 0%, transparent 55%),
+    radial-gradient(900px 400px at 100% 0%, #f3ebe0 0%, transparent 50%),
+    var(--bg);
+  line-height: 1.55;
+}
+.wrap { max-width: 820px; margin: 0 auto; padding: 28px 18px 100px; }
+header {
+  margin-bottom: 28px;
+  padding: 28px 26px;
+  background: linear-gradient(145deg, #123f38 0%, #0f6b5c 55%, #2a8f7a 100%);
+  color: #f4fffb;
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+}
+header h1 {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  margin: 0 0 8px;
+  letter-spacing: -0.02em;
+}
+header p { margin: 0; opacity: 0.9; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.chip {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.15);
+  font-size: 0.82rem;
+}
+.q {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 18px 14px;
+  margin: 14px 0;
+  box-shadow: var(--shadow);
+}
+.q.ok { border-color: #9fd5b1; background: var(--ok-bg); }
+.q.bad { border-color: #efb4ba; background: var(--bad-bg); }
+.q.learn { border-color: var(--learn-border); background: var(--learn-bg); }
+.q-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.q-num { font-family: var(--mono); font-weight: 600; color: var(--accent); }
+.tag {
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: var(--accent-soft);
+  color: #0c4f44;
+}
+.tag.diff-łatwe { background: #e8f0e4; color: #2f5d2a; }
+.tag.diff-średnie { background: #f4ecd8; color: #7a5b12; }
+.tag.diff-trudne { background: #f7e4e6; color: #8a2430; }
+.q-text { font-size: 1.05rem; margin: 6px 0 12px; }
+.options label {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 8px 10px;
+  margin: 4px 0;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+.options label:hover { background: #f3f7f5; border-color: #e0ebe7; }
+.options label.idk {
+  margin-top: 8px;
+  background: #f5f7f6;
+  border: 1px dashed #b7c4bf;
+}
+.options label.idk:hover { background: #eef6f8; border-color: #8eb6c4; }
+.options input { margin-top: 4px; }
+.confidence {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.confidence select {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 4px 8px;
+  background: #fff;
+}
+.feedback {
+  margin-top: 12px;
+  display: none;
+}
+.q.checked .feedback { display: block; }
+.why-ok {
+  padding: 10px 12px;
+  border-left: 3px solid var(--accent);
+  background: rgba(255,255,255,0.75);
+  font-size: 0.92rem;
+}
+.lesson {
+  margin-top: 10px;
+  padding: 14px 14px 10px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.85);
+  border: 1px solid var(--border);
+}
+.q.bad .lesson { border-color: #efb4ba; }
+.q.learn .lesson { border-color: var(--learn-border); }
+.lesson-head {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.q.bad .lesson-head { color: var(--bad); }
+.q.learn .lesson-head { color: var(--learn); }
+.lesson-encourage {
+  font-size: 0.92rem;
+  color: var(--learn);
+  margin: 0 0 10px;
+}
+.lesson h4 {
+  margin: 12px 0 4px;
+  font-size: 0.88rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+.lesson p { margin: 0 0 6px; font-size: 0.95rem; }
+.verdict {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-left: auto;
+}
+.verdict.ok { color: var(--ok); }
+.verdict.bad { color: var(--bad); }
+.verdict.learn { color: var(--learn); }
+.toolbar {
+  position: sticky;
+  bottom: 0;
+  margin-top: 24px;
+  padding: 14px;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border);
+  border-radius: 16px 16px 0 0;
+  box-shadow: 0 -8px 24px rgba(28,36,32,0.08);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+button {
+  font-family: var(--sans);
+  border: none;
+  border-radius: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { filter: brightness(1.05); }
+.btn-secondary { background: #eef3f1; color: var(--ink); border: 1px solid var(--border); }
+#score {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-weight: 600;
+  min-height: 1.2em;
+}
+#score.show {
+  padding: 6px 10px;
+  background: var(--accent-soft);
+  border-radius: 8px;
+  color: #0c4f44;
+}
+@media (max-width: 600px) {
+  .toolbar { flex-direction: column; align-items: stretch; }
+  #score { margin-left: 0; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Quiz LLM Engineering</h1>
+    <p>Data: 24.09.2026 · 20 pytań · A–D albo „Nie mam pojęcia”</p>
+    <div class="meta">
+      <span class="chip">10 z ostatniej lekcji (LSTM → Agentic AI)</span>
+      <span class="chip">10 z powtórki</span>
+      <span class="chip">6 łatwych · 8 średnich · 6 trudnych</span>
+    </div>
+  </header>
+  <div id="quiz"></div>
+  <div class="toolbar">
+    <button type="button" class="btn-primary" id="checkBtn">Sprawdź wynik</button>
+    <button type="button" class="btn-secondary" id="dlAnswers" disabled>Pobierz 24.09.2026_my_answers.md</button>
+    <button type="button" class="btn-secondary" id="dlResults" disabled>Pobierz 24.09.2026_results.md</button>
+    <div id="score"></div>
+  </div>
+</div>
+<script>
+const DATE = "24.09.2026";
+const QUIZ = [{"n": 1, "cat": "LLM", "diff": "łatwe", "text": "Jaki jest główny problem sieci LSTM przy skalowaniu do dużych zbiorów danych?", "A": "Nie potrafi przetwarzać tekstu krok po kroku", "B": "Przetwarzanie jest sekwencyjne — trudno wykonywać obliczenia równolegle", "C": "Zawsze wymaga narzędzi (tools) przy każdym tokenie", "D": "Nie przewiduje kolejnych fragmentów tekstu", "correct": "B", "why": "LSTM przetwarza sekwencję krok po kroku; kolejny krok zależy od poprzedniego, więc równoległość jest trudna — dłuższy trening i gorsze skalowanie.", "lesson": {"correct": "Wyobraź sobie kolejkę przy kasie: następną osobę obsługujesz dopiero, gdy skończysz z poprzednią. LSTM działa podobnie z tekstem — liczy krok 10 dopiero po krokach 1–9. Dlatego trudno rozłożyć pracę na wiele kart GPU naraz. To spowalnia trenowanie i utrudnia budowę bardzo dużych modeli. Transformer później obejdzie ten problem dzięki równoległemu patrzeniu na wiele elementów naraz.", "example": "Masz zdanie z 100 słowami. LSTM musi przejść je jak koraliki na sznurku: 1, potem 2, potem 3… Nie może policzyć słowa 50 jednocześnie ze słowem 10. Przy milionach dokumentów ta kolejka trwa bardzo długo i kosztuje dużo mocy obliczeniowej.", "remember": "LSTM = kolejka krok po kroku. Brak łatwej równoległości = wolne skalowanie.", "wrong": {"A": "LSTM właśnie przetwarza tekst krok po kroku — to jego cecha, nie brak. Problem leży w tym, że ta kolejność utrudnia równoległość.", "C": "Tools (narzędzia API, wyszukiwarka itd.) to późniejszy pomysł przy agentach. LSTM to stary typ sieci — nie „musi” mieć tools.", "D": "Modele językowe nadal przewidują kolejne fragmenty. LSTM też pracował na sekwencjach; ograniczeniem była sekwencyjność obliczeń, nie brak predykcji."}}}, {"n": 2, "cat": "LLM", "diff": "łatwe", "text": "Który mechanizm jest kluczowy dla transformerów i pozwala ocenić, które fragmenty wejścia są ważne?", "A": "Wyłącznie rekurencja jak w klasycznym RNN", "B": "Fine-tuning QLoRA zamiast predykcji tokenów", "C": "Attention (mechanizm uwagi)", "D": "Web scraping z BeautifulSoup", "correct": "C", "why": "Kluczowym mechanizmem transformera jest attention — model ocenia, które fragmenty wejścia są najważniejsze dla aktualnie analizowanego fragmentu.", "lesson": {"correct": "Attention to jak podkreślanie ważnych zdań w książce żółtym markerem. Model nie musi czytać tylko „słowo po słowie w ścisłej kolejce”. Może patrzeć na wiele miejsc naraz i pytać: które fragmenty pomagają teraz? Dzięki temu obliczenia da się lepiej robić równolegle na GPU. To właśnie pomogło trenować większe modele na większych danych.", "example": "Zdanie: „Kot, którego widziałem wczoraj na dachu, spał”. Przy słowie „spał” attention może mocniej „patrzeć” na „Kot”, a mniej na „dachu”. Model łączy odległe części tekstu bez czekania na całą rekurencyjną kolejkę LSTM.", "remember": "Transformer = attention + równoległość. Attention = „co jest ważne teraz?”.", "wrong": {"A": "Rekurencja to świat RNN/LSTM. Transformer właśnie odchodzi od spięcia „tylko krok po kroku”.", "B": "QLoRA i fine-tuning to osobne tematy dostosowywania wag. Nie są mechanizmem attention w transformerze.", "D": "Scraping tylko pobiera tekst ze strony. Nie jest mechanizmem wewnątrz architektury modelu."}}}, {"n": 3, "cat": "LLM", "diff": "łatwe", "text": "Co najlepiej opisuje ideę narzędzia typu copilot?", "A": "AI całkowicie zastępuje człowieka w pracy", "B": "Model działa wyłącznie offline bez kontaktu z użytkownikiem", "C": "System agentowy bez żadnego udziału człowieka", "D": "Człowiek nadal wykonuje pracę, a AI pomaga mu w jej wykonywaniu", "correct": "D", "why": "Copilot to współpraca: człowiek prowadzi pracę, a AI pomaga (kod, streszczenia, sugestie) — nie pełne zastąpienie.", "lesson": {"correct": "Copilot to jak pomocnik przy biurku, nie robot, który Cię wyrzuca z biura. Ty nadal decydujesz i odpowiadasz za efekt. Model może dopisać fragment kodu, streścić dokument albo zaproponować pierwszą wersję tekstu. Chodzi o przyspieszenie i wsparcie, nie o „wyłącz człowieka”. To etap między zwykłym promptowaniem a pełnymi systemami agentowymi.", "example": "Piszesz funkcję w Pythonie. Copilot proponuje ciało funkcji. Ty sprawdzasz, poprawiasz nazwę zmiennej i zatwierdzasz. Praca jest wspólna: AI podpowiada, człowiek prowadzi.", "remember": "Copilot = człowiek + AI razem. Pomoc, nie zamiana.", "wrong": {"A": "Pełne zastąpienie to inna wizja. Copilot właśnie zakłada, że człowiek zostaje w pętli.", "B": "Copiloty często działają w edytorach i chmurze; ideą nie jest „tylko offline bez użytkownika”.", "C": "System agentowy może działać bardziej autonomicznie w pętli z narzędziami. Copilot to przede wszystkim asysta przy pracy człowieka."}}}, {"n": 4, "cat": "Narzędzia", "diff": "łatwe", "text": "Na jakim porcie domyślnie nasłuchuje serwer Ollama?", "A": "8080", "B": "3000", "C": "11434", "D": "5000", "correct": "C", "why": "Ollama po `ollama serve` domyślnie nasłuchuje na porcie 11434.", "lesson": {"correct": "Port to numer „drzwi” w komputerze, pod które programy wysyłają zapytania. Ollama otwiera drzwi o numerze 11434. Twój kod Pythona łączy się zwykle z adresem localhost i tym portem. Jeśli serwer nie działa, połączenie nie wejdzie — niezależnie od poprawności promptu.", "example": "W przeglądarce lub kodzie sprawdzasz http://localhost:11434. Dostajesz odpowiedź serwera = Ollama żyje. Potem klient SDK może wołać chat completions na http://localhost:11434/v1.", "remember": "Ollama = port 11434. Zapamiętaj jak PIN do lokalnego modelu.", "wrong": {"A": "8080 to częsty port innych serwerów WWW, nie domyślny port Ollamy w materiale kursu.", "B": "3000 bywa używany przez frontendy (np. Node), nie przez Ollamę.", "D": "5000 to inny popularny port deweloperski — nie domyślny Ollamy."}}}, {"n": 5, "cat": "LLM", "diff": "łatwe", "text": "Czym jest token w kontekście modeli językowych?", "A": "Fragmentem tekstu (słowo, część słowa lub znak) z przypisanym identyfikatorem numerycznym", "B": "Wyłącznie całym dokumentem HTML bez podziału", "C": "Stałym limitem znaków równym zawsze 1000", "D": "Jednostką rozliczeniową tylko za obrazy multimodalne", "correct": "A", "why": "Token to fragment tekstu z numerycznym ID; model przewiduje kolejne tokeny w sekwencji — nie „czyta” jak człowiek słowo po słowie.", "lesson": {"correct": "Model nie widzi liter jak człowiek w książce. Najpierw tekst tnie się na kawałki zwane tokenami. Każdy kawałek dostaje numer. Model liczy na tych numerach i przewiduje, jaki numer (token) powinien być następny. Token może być całym słowem, połową słowa albo znakiem ze spacją.", "example": "Zdanie „Hi my name is Ed…” po tokenizacji to lista liczb. Jedno słowo czasem = 1 token, czasem kilka. Dlatego limit „znaków” ≠ limit tokenów.", "remember": "Token = kawałek tekstu + numer. Model myśli numerami, nie literkami.", "wrong": {"B": "HTML i długie dokumenty też są tokenizowane na wiele tokenów. Nie ma jednego „tokenu = cały HTML”.", "C": "1000 znaków to nie definicja tokenu. Limity okna kontekstu liczy się w tokenach i zależą od modelu.", "D": "Tokeny dotyczą też zwykłego tekstu; rozliczenie API zwykle idzie per token wejścia/wyjścia, nie tylko za obrazy."}}}, {"n": 6, "cat": "API", "diff": "łatwe", "text": "Co oznacza, że wywołanie LLM przez API jest bezstanowe (stateless)?", "A": "Model zawsze odpowiada w tym samym stylu niezależnie od promptu", "B": "Klient SDK automatycznie zapisuje historię rozmowy na dysku serwera modelu", "C": "Tokeny wejściowe nigdy nie są rozliczane", "D": "Każde wywołanie jest niezależne — serwer nie pamięta poprzednich zapytań", "correct": "D", "why": "Każde `chat.completions.create()` to nowe, niezależne żądanie; serwer nie przenosi pamięci między wywołaniami.", "lesson": {"correct": "Bezstanowe znaczy: serwer nie ma „szuflady z Twoją rozmową”. Każde wywołanie to jak nowa rozmowa z kimś, kto Cię nie zna — chyba że sam wkleisz historię do messages. Dlatego drugie pytanie „jak mam na imię?” bez historii nie zadziała. Iluzję pamięci buduje inżynier, nie magia API.", "example": "Wywołanie 1: „Nazywam się Ed”. Wywołanie 2 bez historii: „Jak mam na imię?”. Model nie wie. Wywołanie 2 z pełną listą messages (user + assistant + nowe pytanie) — wtedy może odpowiedzieć „Ed”.", "remember": "API = amnezja. Pamięć = Ty wklejasz historię w messages.", "wrong": {"A": "Styl zależy od promptu i modelu. Bezstanowość nie oznacza „zawsze ten sam ton”.", "B": "SDK nie zapisuje magicznie historii na serwerze modelu. To Ty musisz przekazać messages.", "C": "Tokeny zwykle są rozliczane. Bezstanowość dotyczy pamięci stanu, nie darmowych tokenów."}}}, {"n": 7, "cat": "LLM", "diff": "średnie", "text": "Co oznacza zjawisko nazywane emergent intelligence w kontekście dużych modeli językowych?", "A": "Zdolności, które pojawiają się wraz ze skalą (parametry, dane, moc obliczeniowa)", "B": "Wyłącznie poprawę jakości scrapingu HTML", "C": "Zastąpienie predykcji tokenów przez reguły if-else", "D": "Konieczność używania tylko modeli LSTM", "correct": "A", "why": "Emergent intelligence to zdolności pojawiające się wraz ze skalą — model nadal przewiduje tokeny, ale przy dużej skali imituje bogatsze zachowania.", "lesson": {"correct": "Na początku LLM wyglądał jak „super autouzupełnianie”. Potem, gdy modele urosły (więcej parametrów, danych, mocy), zaczęły robić rzeczy, których wielu nie oczekiwało: streszczać, tłumaczyć, pisać kod, łączyć fakty. Nadal przewidują kolejny token — ale przy dużej skali efekt wygląda jak rozumowanie. To właśnie „zdolności wychodzące ze skali”.", "example": "Mały model ledwo dokończy zdanie. Dużo większy model dostaje to samo zadanie „napisz funkcję sortującą” i generuje sensowny kod. Mechanizm ten sam (kolejne tokeny), efekt bogatszy dzięki skali.", "remember": "Emergent = przy większej skali wychodzą nowe umiejętności. Pod spodem nadal tokeny.", "wrong": {"B": "Scraping to pobieranie stron. Nie definiuje emergent intelligence.", "C": "Modele nie zamieniają się w klasyczne if-else zamiast predykcji tokenów.", "D": "Emergencja dotyczy dużych LLM (zwykle transformerów), nie powrotu do samego LSTM."}}}, {"n": 8, "cat": "LLM", "diff": "średnie", "text": "Czym context engineering różni się od klasycznego prompt engineering?", "A": "To tylko synonim ładniejszego sformatowania jednego zdania promptu", "B": "Zastępuje całkowicie potrzebę dostarczania jakichkolwiek danych modelowi", "C": "Skupia się na dostarczeniu modelowi wszystkich informacji potrzebnych do zadania (dane, dokumenty, wyniki narzędzi), nie tylko na samym brzmieniu polecenia", "D": "Dotyczy wyłącznie ustawiania User-Agent przy scrapingu", "correct": "C", "why": "Prompt engineering pyta „jak napisać polecenie?”; context engineering — „jak dostarczyć wszystkie potrzebne informacje?” (dane, dokumenty, API, historia).", "lesson": {"correct": "Dobry prompt to jak jasna instrukcja dla kolegi. Context engineering idzie dalej: dajesz koledze też folder z faktami, cennik i notatki ze spotkania. LLM odpowiada tylko na podstawie tego, co jest w sekwencji wejściowej. Bez aktualnych danych może zgadywać. Dlatego do kontekstu wrzucasz dokumenty, wyniki wyszukiwania, historię, dane z API.", "example": "Pytanie: „Ile kosztuje bilet?”. Sam prompt „podaj cenę” nie wystarczy. Do kontekstu dokładasz aktualny cennik. Dopiero wtedy odpowiedź może być poprawna, a nie wymyślona.", "remember": "Prompt = jak powiedzieć. Context = co jeszcze musi wiedzieć model.", "wrong": {"A": "To nie jest tylko kosmetyka zdania. Chodzi o bogatszy pakiet informacji wejściowych.", "B": "Wręcz przeciwnie — context engineering dostarcza więcej danych, nie mniej.", "D": "User-Agent to detal scrapingu HTTP, nie definicja context engineering."}}}, {"n": 9, "cat": "LLM", "diff": "średnie", "text": "Czym są tools w systemach opartych o LLM?", "A": "Wyłącznie arkuszami CSS do stylowania odpowiedzi", "B": "Funkcjami lub API, z których model może skorzystać, by pobrać dane lub wykonać działanie", "C": "Zamiennikiem tokenizacji tiktoken", "D": "Tylko komendą `ollama pull` bez innych zastosowań", "correct": "B", "why": "Tools to funkcje/API (wyszukiwarka, baza, pogodowe API, rezerwacje itd.), które model może wywołać, a wynik wraca do kontekstu.", "lesson": {"correct": "Sam LLM nie „wie” aktualnej ceny lotu ani pogody z tej chwili. Tool to jak telefon do innego systemu: model decyduje „zadzwoń po dane”, dostaje wynik i dopiero wtedy pisze odpowiedź. Narzędziem może być funkcja w kodzie albo zewnętrzne API. To most między tekstem a działaniem w prawdziwym świecie.", "example": "Użytkownik: „Ile kosztuje lot do Londynu jutro?”. Model woła API przewoźnika, dostaje cenę, dokłada ją do kontekstu i odpowiada z aktualną kwotą zamiast zgadywać.", "remember": "Tools = ręce modelu. LLM myśli tekstem, tool wykonuje akcję / pobiera fakt.", "wrong": {"A": "CSS styluje wygląd strony, nie daje modelowi dostępu do danych zewnętrznych.", "C": "Tokenizacja dzieli tekst na tokeny. Tools to osobna warstwa działań/API.", "D": "`ollama pull` tylko pobiera lokalny model. Nie jest definicją tools w agentach."}}}, {"n": 10, "cat": "LLM", "diff": "średnie", "text": "Która definicja najlepiej opisuje Agentic AI w ujęciu „LLM w pętli”?", "A": "Jednorazowe wywołanie modelu bez narzędzi i bez powtórzeń", "B": "Model chatowy bez możliwości planowania kolejnych kroków", "C": "Wyłącznie ranking modeli na leaderboardzie", "D": "LLM działający w pętli i mający dostęp do narzędzi — wielokrotnie planuje, działa, analizuje wynik", "correct": "D", "why": "Jedna popularna definicja: agent to LLM w pętli z narzędziami — wielokrotne wywołania, użycie tooli, analiza wyników, kolejne kroki.", "lesson": {"correct": "Agent to nie jedno „zapytaj i zapomnij”. To pętla: model myśli → czasem używa narzędzia → czyta wynik → znów myśli → aż skończy zadanie. Może też planować kroki i sterować workflow. Z zewnątrz wygląda jak samodzielna praca. Technicznie to seria: input → LLM → output → tool → nowy input → LLM…", "example": "„Znajdź restaurację i zarezerwuj stolik”: wyszukaj → sprawdź terminy → wybierz → zarezerwuj → potwierdź. Każdy krok to kolejne wywołanie i/lub tool.", "remember": "Agent = LLM + pętla + tools. Nie jedno strzałowe completion.", "wrong": {"A": "Jedno wywołanie bez pętli to zwykłe inference, nie typowy agent.", "B": "Agent właśnie planuje i wybiera kolejne działania.", "C": "Leaderboard porównuje modele; nie definiuje architektury agenta."}}}, {"n": 11, "cat": "API", "diff": "średnie", "text": "Jak inżynier AI tworzy iluzję, że model „pamięta” rozmowę?", "A": "Przez wyłączenie rozliczania tokenów wejściowych", "B": "Przez przekazywanie całej dotychczasowej historii w `messages` przy każdym wywołaniu", "C": "Przez używanie wyłącznie roli `system` bez jakiejkolwiek treści `user`", "D": "Przez fine-tuning wag modelu przy każdej turze rozmowy", "correct": "B", "why": "Iluzja pamięci powstaje, gdy przy każdym wywołaniu przekazujesz pełną historię (system/user/assistant) w `messages`.", "lesson": {"correct": "Model nie ma szuflady „pamiętam Edka”. Ty budujesz tę szufladę w prompcie. Do każdej nowej tury dokładasz wcześniejsze wiadomości user i assistant. Model widzi cały ciąg i przewiduje sensowną kontynuację. Produkty chatowe robią to w tle za Ciebie.", "example": "Lista: system → „Cześć, jestem Ed” → odpowiedź asystenta → „Jak mam na imię?”. Dopiero wtedy model „wie”, bo Ed jest w wejściu.", "remember": "Pamięć LLM = historia wklejona do messages. Bez wklejenia = amnezja.", "wrong": {"A": "Wyłączenie rozliczeń nie tworzy pamięci. To kwestia pieniędzy, nie stanu.", "C": "Sam system bez historii user/assistant nie odtworzy faktów z poprzedniej tury.", "D": "Fine-tuning przy każdej wiadomości byłby absurdalnie drogi i nie tak działa chat API."}}}, {"n": 12, "cat": "Python", "diff": "średnie", "text": "Które elementy HTML typowo usuwa się metodą `decompose()` przed ekstrakcją tekstu dla LLM?", "A": "m.in. `script`, `style`, `img`, `input` (elementy bez wartości merytorycznej dla streszczenia)", "B": "Wyłącznie tagi `h1` i `p`, bo zawierają treść", "C": "Tylko atrybuty `href`, bez ruszania tagów", "D": "Wyłącznie komentarze HTML, zostawiając JavaScript w prompcie", "correct": "A", "why": "Przed ekstrakcją usuwa się elementy bez treści merytorycznej (script, style, img, input itd.), by nie marnować tokenów.", "lesson": {"correct": "`decompose()` wycina zbędne gałęzie z drzewa HTML. Skrypty, style, obrazki i pola formularza rzadko pomagają w streszczeniu strony. Zostawiasz tekst merytoryczny, potem bierzesz go `get_text`. Czystszy tekst = mniej tokenów i lepsza jakość odpowiedzi modelu.", "example": "Strona ma 50 KB JS w `<script>` i 2 KB artykułu. Bez czyszczenia model „czyta” śmieci JS. Po `decompose` dostaje głównie treść artykułu.", "remember": "Wyrzuć script/style/UI. Do LLM dawaj tekst, nie kod strony.", "wrong": {"B": "`h1` i `p` to właśnie treść — ich nie usuwamy jako „śmieci”.", "C": "Sam atrybut `href` to nie cały problem; usuwa się całe zbędne tagi z drzewa.", "D": "Zostawianie JavaScriptu w prompcie marnuje tokeny i psuje jakość."}}}, {"n": 13, "cat": "API", "diff": "średnie", "text": "Co podkreśla nazwa Chat Completions w API do rozmów z LLM?", "A": "Że serwer trwale zapisuje stan rozmowy między niezależnymi klientami", "B": "Że model generuje wyłącznie kod źródłowy, nigdy zwykły tekst", "C": "Że dostajesz historię rozmowy i prosisz model o dokończenie — przewidzenie kolejnej wiadomości asystenta", "D": "Że API działa wyłącznie bez listy `messages`", "correct": "C", "why": "Chat Completions: podajesz rozmowę (messages) i prosisz o uzupełnienie — kolejną wiadomość asystenta (nadal predykcja tokenów w formacie czatu).", "lesson": {"correct": "„Completion” = dokończenie. „Chat” = w formie rozmowy. Składasz listę wiadomości i mówisz: co asystent powinien powiedzieć dalej? To wygodna otoczka na to samo: przewidywanie kolejnych tokenów. Stąd popularność tego kształtu API u wielu dostawców.", "example": "Messages: system + user „opowiedz żart”. Completion = treść odpowiedzi asystenta w `choices[0].message.content`.", "remember": "Chat Completions = dokończ rozmowę. Nadal token po tokenie.", "wrong": {"A": "API jest bezstanowe — samo z siebie nie trzyma pamięci między klientami.", "B": "Model generuje dowolny tekst (i kod), nie „tylko kod”.", "D": "Wręcz przeciwnie: sercem API jest lista `messages`."}}}, {"n": 14, "cat": "LLM", "diff": "średnie", "text": "Do czego służy `encoding_for_model(...)` w bibliotece tiktoken?", "A": "Do uruchomienia serwera Ollama na porcie 11434", "B": "Do wyboru najtańszego modelu frontier na rynku", "C": "Do zamiany odpowiedzi API na markdown w notebooku", "D": "Do dobrania schematu tokenizacji powiązanego ze wskazanym modelem", "correct": "D", "why": "`encoding_for_model` dobiera encoding/tokenizer właściwy dla danego modelu — różne modele mogą dzielić ten sam tekst inaczej.", "lesson": {"correct": "Różne modele tną tekst różnymi „nożyczkami”. `encoding_for_model` bierze nazwę modelu i daje właściwy sposób dzielenia na tokeny. Potem `encode` robi listę numerów, `decode` wraca do tekstu. Dzięki temu liczysz tokeny tak, jak robi to wybrany model — ważne przy koszcie i oknie kontekstu.", "example": "Bierziesz encoding dla wariantu GPT, kodujesz zdanie o banoffee pie, wypisujesz ID i odpowiadające im kawałki tekstu. Widzisz, że spacja często „przykleja się” do tokenu.", "remember": "encoding_for_model = dobierz nożyczki do modelu. Potem encode/decode.", "wrong": {"A": "Ollamę uruchamiasz osobno (`serve`), nie przez tiktoken.", "B": "tiktoken nie porównuje cen frontier na rynku.", "C": "Markdown w notebooku to wyświetlanie (`display`), nie rola tiktoken."}}}, {"n": 15, "cat": "LLM", "diff": "trudne", "text": "Co w Agentic AI zwykle oznacza „autonomia” agenta?", "A": "Że model posiada własną wolę niezależną od systemu", "B": "Że agent nigdy nie może używać narzędzi", "C": "Że model wybiera następny krok procesu, a system ten krok wykonuje i zwraca wynik do modelu", "D": "Że kontekst wejściowy jest zawsze pusty", "correct": "C", "why": "Autonomia to technicznie: model wskazuje następny krok (np. „wykonaj X”), system to robi, wynik wraca do modelu — nie „własna wola”.", "lesson": {"correct": "Autonomia brzmi jak science-fiction, ale w notatkach znaczy coś prostego. Model pisze w odpowiedzi: „następny krok = zrób X”. Program czyta to i robi X (np. wywołuje API). Wynik wraca do modelu. Model znów wybiera. To sterowanie workflow, nie magiczna wolna wola. Agent „sam” posuwa zadanie, bo system słucha jego decyzji o kolejnym kroku.", "example": "Model: „wywołaj wyszukiwarkę restauracji”. System woła tool. Wraca lista. Model: „zarezerwuj stolik o 19:00”. System rezerwuje. Potem model potwierdza użytkownikowi.", "remember": "Autonomia = model wybiera następny krok. System wykonuje. Wynik wraca.", "wrong": {"A": "Notatki wprost mówią: to nie własna wola — to mechanizm wyboru kolejnego kroku.", "B": "Agenci zwykle mają tools; zakaz narzędzi przeczy idei Agentic AI.", "D": "Bez kontekstu agent nie ma na czym działać; autonomia nie oznacza pustego wejścia."}}}, {"n": 16, "cat": "LLM", "diff": "trudne", "text": "Co pozostaje podstawowym mechanizmem pod spodem nawet w rozbudowanych systemach Agentic AI?", "A": "Przewidywanie kolejnych tokenów — a „magia” powstaje z kontekstu, narzędzi, pamięci, pętli i skali", "B": "Całkowite zastąpienie LLM przez reguły bez generowania tekstu", "C": "Wyłącznie sieć LSTM bez transformera", "D": "Sam Gradio bez jakiegokolwiek modelu językowego", "correct": "A", "why": "Pod spodem nadal: input → LLM → przewidywanie tokenów → output; agentowość to infrastruktura wokół (kontekst, tools, pętla, planowanie).", "lesson": {"correct": "Nawet gdy AI „rezerwuje stolik” i „pisze plan”, w środku model ciągle zgaduje kolejne kawałki tekstu (tokeny). Reszta to opakowanie: dobry kontekst, pamięć historii, narzędzia, wielokrotne wywołania, plan. Dlatego system wygląda mądrze, choć silnik jest ten sam. Zrozumienie tego chroni przed myśleniem, że agent ma osobny „mózg wolnej woli”.", "example": "Schemat: LLM + kontekst + tools + pętla = agent. Ale każde wywołanie LLM to nadal dokończenie sekwencji tokenów. Tool tylko dokłada świeże fakty do wejścia.", "remember": "Agent = ten sam silnik tokenów + mądre opakowanie wokół.", "wrong": {"B": "Agent nadal korzysta z generowania przez LLM; reguły same nie zastępują modelu w tej wizji.", "C": "Współczesne LLM opierają się na transformerach; LSTM to wcześniejszy etap historii.", "D": "Gradio to tylko UI do prototypów — bez modelu nie ma Agentic AI."}}}, {"n": 17, "cat": "LLM", "diff": "trudne", "text": "Dlaczego transformery okazały się przełomem głównie pod kątem rozwoju dużych modeli?", "A": "Bo całkowicie zrezygnowały z jakiejkolwiek formy uwagi (attention)", "B": "Bo umożliwiły lepszą równoległość obliczeń (m.in. na GPU) i tym samym skalowanie modeli oraz danych", "C": "Bo wymagały wyłącznie sekwencyjnego liczenia jak LSTM", "D": "Bo usunęły potrzebę predykcji kolejnych tokenów", "correct": "B", "why": "Transformer wygrał przede wszystkim skalowalnością: równoległa analiza sekwencji i lepsze wykorzystanie GPU → większe modele i dane.", "lesson": {"correct": "Nie chodziło tylko o to, że transformer był „mądrzejszy w teoriami”. Chodziło o praktykę: da się liczyć wiele rzeczy naraz na kartach GPU. Attention pomaga łączyć odległe fragmenty, a równoległość pozwala trenować ogromne modele na ogromnych zbiorach. Skalowalność otworzyła erę współczesnych LLM.", "example": "LSTM: kolejka 1→2→3… Transformer: wiele pozycji sekwencji przetwarzanych równolegle. Przy tym samym budżecie czasu możesz „przerobić” dużo więcej danych treningowych.", "remember": "Przełom transformera = skalowalność dzięki równoległości (i attention).", "wrong": {"A": "Attention jest kluczowy — transformer nie rezygnuje z uwagi.", "C": "Sekwencyjność to problem LSTM; transformer właśnie ją łagodzi.", "D": "LLM nadal przewidują tokeny; transformer tego nie usuwa."}}}, {"n": 18, "cat": "API", "diff": "trudne", "text": "Dlaczego przy długiej rozmowie koszt API rośnie z każdą turą, nawet gdy nowe pytanie jest krótkie?", "A": "Bo API zawsze dolicza stałą opłatę niezależną od liczby tokenów", "B": "Bo rola `assistant` jest zawsze darmowa, a `user` podwójnie płatna", "C": "Bo tiktoken automatycznie podwaja liczbę tokenów co turę niezależnie od treści", "D": "Bo przy każdej turze ponownie rozliczana jest (prawie) cała dotychczasowa historia wejściowa", "correct": "D", "why": "Każda tura znów wysyła (i rozlicza) dotychczasową historię w wejściu — krótkie nowe pytanie nie zeruje kosztu kontekstu.", "lesson": {"correct": "Żeby model „pamiętał”, wklejasz całą historię. Dostawca liczy tokeny wejścia przy każdym requeście. Im dłuższy czat, tym dłuższy rachunek za wejście — nawet jeśli dopiszesz tylko „ok”. To zamierzone: model ma patrzeć na cały kontekst. Stąd potrzeba skracania lub streszczania starych tur.", "example": "Po 30 turach historia ma 8000 tokenów. Nowe pytanie ma 5 tokenów. Płacisz mniej więcej za ~8005 tokenów wejścia + odpowiedź, nie za same 5.", "remember": "Długa pamięć = długi rachunek. Każda tura płaci za historię ponownie.", "wrong": {"A": "Rozliczenie zwykle zależy od tokenów, nie od jednej stałej opłaty „za turę niezależnie od treści”.", "B": "Nie ma reguły „assistant darmowy, user podwójny” w tym materiale.", "C": "tiktoken nie podwaja magicznie tokenów co turę — rośnie realna długość historii."}}}, {"n": 19, "cat": "RAG", "diff": "trudne", "text": "Dlaczego embeddings i baza wektorowa pomagają przy ograniczonym oknie kontekstu?", "A": "Bo pozwalają dołączyć do promptu tylko najbardziej podobne / istotne fragmenty zamiast całego dokumentu", "B": "Bo zwiększają limit tokenów modelu u dostawcy bez żadnych zmian po jego stronie", "C": "Bo całkowicie eliminują potrzebę jakiegokolwiek promptu", "D": "Bo usuwają konieczność tokenizacji tekstu wejściowego", "correct": "A", "why": "RAG: fragmenty → embeddings → baza wektorowa → przy pytaniu dokładane są tylko podobne kawałki, zamiast całego dokumentu do okna kontekstu.", "lesson": {"correct": "Okno kontekstu to mały plecak: nie wepchniesz całej encyklopedii. Robisz tak: tniesz tekst na kawałki, zamieniasz je na wektory (embeddings), trzymasz w bazie. Gdy pada pytanie, wyciągasz kilka najbardziej podobnych kawałków i tylko je wkładasz do promptu. Model dostaje to, co potrzebne, bez przepychania całości.", "example": "Masz 200-stronicowy regulamin. Pytanie o zwroty. System znajduje 3 akapity o zwrotach i dokłada je do promptu. Nie wysyłasz wszystkich 200 stron.", "remember": "RAG = znajdź podobne kawałki, nie wcinaj całego dokumentu na siłę.", "wrong": {"B": "RAG nie powiększa magicznie limitu tokenów u dostawcy — lepiej wykorzystuje istniejący limit.", "C": "Nadal budujesz prompt; RAG go wzbogaca danymi.", "D": "Tekst i tak jest tokenizowany przed modelem."}}}, {"n": 20, "cat": "GenAI", "diff": "trudne", "text": "Jaki skutek ma proste obcięcie długiego tekstu strony od początku do stałego limitu znaków przed wysłaniem do modelu?", "A": "Automatycznie buduje bazę wektorową z końcówki dokumentu", "B": "Zwiększa okno kontekstu lokalnego modelu", "C": "Końcówka długiego artykułu ginie — do modelu trafia tylko początkowy fragment", "D": "Gwarantuje, że model dostanie wyłącznie surowy JavaScript", "correct": "C", "why": "Obcięcie `text[:LIMIT]` od początku zachowuje start dokumentu, a końcówka długiego artykułu znika z wejścia modelu.", "lesson": {"correct": "Limit znaków chroni okno kontekstu i koszt. Najprostszy sposób: weź początek i przetnij. To działa na start, ale ma cenę: wszystko za limitem znika. Przy Wikipedii koniec artykułu może być ważny — i go nie zobaczysz. W produkcji często idzie się w chunking, map-reduce albo RAG.", "example": "Artykuł ma 50 000 znaków, limit 12 000. Model dostaje pierwsze 12 000. Sekcja na końcu o „krytyce” nigdy nie trafia do streszczenia.", "remember": "Obcięcie od początku = ratunek dla limitu, strata końca tekstu.", "wrong": {"A": "Samo `[:LIMIT]` nie tworzy bazy wektorowej.", "B": "Obcięcie nie powiększa okna kontekstu modelu — dopasowuje wejście do limitu.", "D": "Celem czyszczenia jest raczej uniknięcie JS; obcięcie dotyczy już tekstu, nie „tylko JavaScriptu”."}}}];
+
+const root = document.getElementById("quiz");
+QUIZ.forEach(q => {
+  const el = document.createElement("article");
+  el.className = "q";
+  el.dataset.n = q.n;
+  el.innerHTML = `
+    <div class="q-head">
+      <span class="q-num">#${q.n}</span>
+      <span class="tag">[${q.cat}]</span>
+      <span class="tag diff-${q.diff}">[${q.diff}]</span>
+      <span class="verdict" id="v-${q.n}"></span>
+    </div>
+    <div class="q-text">${escapeHtml(q.text)}</div>
+    <div class="options">
+      ${["A","B","C","D"].map(L => `
+        <label><input type="radio" name="q${q.n}" value="${L}" /> <span><strong>${L})</strong> ${escapeHtml(q[L])}</span></label>
+      `).join("")}
+      <label class="idk"><input type="radio" name="q${q.n}" value="?" /> <span><strong>?</strong> Nie mam pojęcia — bez zgadywania, chcę się nauczyć</span></label>
+    </div>
+    <div class="confidence">
+      <label>Pewność:
+        <select id="c-${q.n}">
+          <option value="">—</option>
+          <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+        </select>
+      </label>
+    </div>
+    <div class="feedback" id="f-${q.n}"></div>
+  `;
+  root.appendChild(el);
+});
+
+function escapeHtml(s) {
+  return String(s)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;");
+}
+
+function getAnswers() {
+  return QUIZ.map(q => {
+    const checked = document.querySelector(`input[name="q${q.n}"]:checked`);
+    const conf = document.getElementById(`c-${q.n}`).value;
+    const yours = checked ? checked.value : "";
+    const isIdk = yours === "?";
+    const ok = yours && !isIdk && yours === q.correct;
+    return {
+      n: q.n,
+      yours,
+      conf,
+      correct: q.correct,
+      why: q.why,
+      cat: q.cat,
+      lesson: q.lesson,
+      ok,
+      idk: isIdk,
+      answered: !!yours
+    };
+  });
+}
+
+function renderLesson(r, mode) {
+  const L = r.lesson;
+  let html = "";
+  if (mode === "bad") {
+    html += `<div class="lesson-head">BŁĄD · Twoja: ${r.yours} · Poprawna: ${r.correct}</div>`;
+    html += `<h4>Twoja odpowiedź</h4><p>${escapeHtml(L.wrong[r.yours] || "")}</p>`;
+  } else {
+    html += `<div class="lesson-head">NIE WIEM · Poprawna: ${r.correct}</div>`;
+    html += `<p class="lesson-encourage">Bez zgadywania — oto wyjaśnienie.</p>`;
+  }
+  html += `<h4>Poprawna myśl</h4><p>${escapeHtml(L.correct)}</p>`;
+  html += `<h4>Przykład</h4><p>${escapeHtml(L.example)}</p>`;
+  html += `<h4>Zapamiętaj</h4><p>${escapeHtml(L.remember)}</p>`;
+  return `<div class="lesson">${html}</div>`;
+}
+
+document.getElementById("checkBtn").addEventListener("click", () => {
+  const rows = getAnswers();
+  const answered = rows.filter(r => r.answered).length;
+  if (answered < 20) {
+    if (!confirm(`Odpowiedziano na ${answered}/20. Sprawdzić mimo to?`)) return;
+  }
+  let score = 0;
+  let idkCount = 0;
+  const strong = [];
+  const weak = [];
+  rows.forEach(r => {
+    const card = document.querySelector(`.q[data-n="${r.n}"]`);
+    card.classList.add("checked");
+    card.classList.remove("ok","bad","learn");
+    const v = document.getElementById(`v-${r.n}`);
+    const f = document.getElementById(`f-${r.n}`);
+    if (!r.answered) {
+      card.classList.add("bad");
+      v.textContent = "BRAK";
+      v.className = "verdict bad";
+      f.innerHTML = `<div class="why-ok">Brak odpowiedzi. Poprawna: <strong>${r.correct}</strong>. ${escapeHtml(r.why)}</div>` + renderLesson({...r, yours: ""}, "idk").replace("NIE WIEM", "BRAK");
+      weak.push(r.cat);
+      return;
+    }
+    if (r.idk) {
+      idkCount++;
+      card.classList.add("learn");
+      v.textContent = "NIE WIEM";
+      v.className = "verdict learn";
+      f.innerHTML = renderLesson(r, "idk");
+      weak.push(r.cat);
+      return;
+    }
+    if (r.ok) {
+      score++;
+      card.classList.add("ok");
+      v.textContent = "OK";
+      v.className = "verdict ok";
+      f.innerHTML = `<div class="why-ok"><strong>OK.</strong> ${escapeHtml(r.why)}</div>`;
+      strong.push(r.cat);
+    } else {
+      card.classList.add("bad");
+      v.textContent = "BŁĄD";
+      v.className = "verdict bad";
+      f.innerHTML = renderLesson(r, "bad");
+      weak.push(r.cat);
+    }
+  });
+  const pct = Math.round((score/20)*100);
+  const scoreEl = document.getElementById("score");
+  scoreEl.className = "show";
+  scoreEl.textContent = `Wynik: ${score}/20 (${pct}%) · Nie wiem: ${idkCount}`;
+  document.getElementById("dlAnswers").disabled = false;
+  document.getElementById("dlResults").disabled = false;
+  window.__last = { rows, score, pct, idkCount, strong, weak };
+});
+
+function download(filename, text) {
+  const blob = new Blob([text], {type: "text/markdown;charset=utf-8"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+document.getElementById("dlAnswers").addEventListener("click", () => {
+  const rows = (window.__last && window.__last.rows) || getAnswers();
+  let md = `# Moje odpowiedzi – ${DATE}\n\n`;
+  md += `| # | Twoja odpowiedź (A/B/C/D/?) | Pewność (1-5) | Uwagi |\n`;
+  md += `|---|---------------------------|---------------|-------|\n`;
+  rows.forEach(r => {
+    md += `| ${r.n} | ${r.yours || ""} | ${r.conf || ""} |  |\n`;
+  });
+  md += `\n## Notatki\n`;
+  download(`${DATE}_my_answers.md`, md);
+});
+
+document.getElementById("dlResults").addEventListener("click", () => {
+  if (!window.__last) return;
+  const { rows, score, pct, idkCount, strong, weak } = window.__last;
+  const uniq = arr => [...new Set(arr)];
+  let md = `# Wynik quizu — ${DATE}\n\n`;
+  md += `## Wynik\n\n`;
+  md += `- **${score}/20**\n`;
+  md += `- **${pct}%**\n`;
+  md += `- **Nie wiem: ${idkCount}**\n\n`;
+  md += `## Szczegóły\n\n`;
+  md += `| # | Twoja odpowiedź | Poprawna odpowiedź | Wynik | Pewność | Komentarz |\n`;
+  md += `|---|-----------------|--------------------|-------|---------|-----------|\n`;
+  rows.forEach(r => {
+    let wynik = "BRAK";
+    if (r.idk) wynik = "NIE WIEM";
+    else if (r.answered && r.ok) wynik = "OK";
+    else if (r.answered) wynik = "BŁĄD";
+    md += `| ${r.n} | ${r.yours || "—"} | ${r.correct} | ${wynik} | ${r.conf || "—"} | ${r.why} |\n`;
+  });
+  md += `\n## Mocne strony\n\n`;
+  md += uniq(strong).length ? uniq(strong).map(c => `- ${c}`).join("\n") : "- Brak poprawnych odpowiedzi w tej sesji.";
+  md += `\n\n## Obszary do powtórki\n\n`;
+  md += uniq(weak).length ? uniq(weak).map(c => `- ${c}`).join("\n") : "- Brak błędów — świetna robota.";
+  md += `\n`;
+  download(`${DATE}_results.md`, md);
+});
+</script>
+</body>
+</html>

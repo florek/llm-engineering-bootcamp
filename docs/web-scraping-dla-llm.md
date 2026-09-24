@@ -29,19 +29,19 @@ Parser `html.parser` jest wbudowany w Pythona — nie wymaga dodatkowych zależn
 
 ## Czyszczenie HTML
 
-Elementy, które nie niosą treści merytorycznej, należy usunąć:
+Elementy, które nie niosą treści merytorycznej, należy usunąć z ciała strony przed ekstrakcją tekstu. W praktyce kursu typowo usuwa się m.in.:
+
+- `script` — kod JavaScript,
+- `style` — definicje CSS,
+- `noscript` — treść alternatywna bez JS,
+- `img`, `input` — elementy UI bez wartości tekstowej dla streszczenia.
 
 ```python
-for tag in soup(["script", "style", "noscript"]):
+for tag in soup.body(["script", "style", "img", "input"]):
     tag.decompose()
 ```
 
-- `script` — kod JavaScript.
-- `style` — definicje CSS.
-- `noscript` — treść alternatywna bez JS.
-
 Metoda `decompose()` usuwa tag wraz z dziećmi z drzewa DOM — w przeciwieństwie do samego wyciągnięcia tekstu, całkowicie wycina te elementy ze struktury HTML przed ekstrakcją treści.
-
 ## Ekstrakcja tekstu
 
 ```python
@@ -53,6 +53,8 @@ return "\n".join(lines)
 - `separator="\n"` — każdy blok HTML oddzielony nową linią.
 - `strip=True` — obcina białe znaki z każdego fragmentu.
 - Filtrowanie pustych linii — czytelniejszy tekst wejściowy dla modelu.
+
+Często łączy się tytuł strony z oczyszczonym tekstem ciała i **obcina wynik do rozsądnego limitu znaków** (np. ok. 2000 w prostym narzędziu labowym) — chroni to okno kontekstu i koszt tokenów przed wrzuceniem całej długiej strony do promptu.
 
 ## Walidacja URL
 

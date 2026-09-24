@@ -98,8 +98,9 @@ Po zrozumieniu różnic między modelami kolejne tematy kursu obejmują:
 - architekturę **transformera**,
 - **Agentic AI** i pętle agentów,
 - **context engineering**,
-- **tokeny**, okna kontekstu, parametry modelu,
-- **koszty API** i optymalizację zużycia tokenów.
+- **tokeny** i tokenizację (np. tiktoken), okna kontekstu, parametry modelu,
+- **bezstanowość** wywołań API i budowanie iluzji pamięci przez historię `messages`,
+- **koszty API** i optymalizację zużycia tokenów (w tym koszt rosnącej historii rozmowy).
 
 To fundament pod budowę agentów, RAG i systemów produkcyjnych.
 

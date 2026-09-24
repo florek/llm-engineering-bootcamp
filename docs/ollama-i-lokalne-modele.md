@@ -29,8 +29,8 @@ Pełny URL bazy to ten adres — klient OpenAI SDK dodaje ścieżki API automaty
 
 ## Modele używane w ćwiczeniach
 
-- **llama3.2** — lekki model Meta, dobry do prostych zadań (chat, streszczanie).
-- **deepseek-r1:1.5b** — mniejszy model reasoningowy DeepSeek; pokazuje, że można przełączać modele bez zmiany reszty kodu.
+- **llama3.2** — lekki model Meta, dobry do prostych zadań (chat, streszczanie). Na słabszym sprzęcie bywa używany wariant jeszcze mniejszy (np. z sufiksem `:1b`).
+- **deepseek-r1:1.5b** — mniejszy model reasoningowy DeepSeek; w materiale kursu pojawia się jako przykład modelu „wydestylowanego” (distilled) do lżejszej bazy. Pokazuje, że można przełączać modele bez zmiany reszty kodu klienta.
 
 ## Zalety lokalnego inference
 
