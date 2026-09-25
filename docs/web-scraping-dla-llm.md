@@ -56,6 +56,14 @@ return "\n".join(lines)
 
 Często łączy się tytuł strony z oczyszczonym tekstem ciała i **obcina wynik do rozsądnego limitu znaków** (np. ok. 2000 w prostym narzędziu labowym) — chroni to okno kontekstu i koszt tokenów przed wrzuceniem całej długiej strony do promptu.
 
+## Ekstrakcja linków
+
+Poza tekstem strony scraper może zebrać odnośniki z elementów `<a>`. Dla każdego linku warto zachować zarówno tekst widoczny dla użytkownika, jak i wartość atrybutu `href` — sam adres nie zawsze wyjaśnia, dokąd prowadzi.
+
+Lista linków pozwala modelowi wskazać podstrony warte dalszego pobrania, np. „O nas”, „Kariera” albo „Kontakt”. To naturalne rozszerzenie prostego streszczania jednej strony w kierunku generatora broszur analizującego wiele powiązanych źródeł.
+
+HTML najlepiej sparsować raz i z tego samego drzewa wyciągnąć potrzebne dane. Powtórne parsowanie identycznej odpowiedzi jest zbędną pracą, a odnośniki bez `href` trzeba pominąć albo jawnie oznaczyć.
+
 ## Walidacja URL
 
 Przed pobraniem strony warto sprawdzić poprawność adresu:
