@@ -35,6 +35,17 @@ token_text = encoding.decode([token_id])
 
 Oglądanie mapowania `id → tekst` buduje intuicję, że token ≠ słowo: jedno słowo może być jednym tokenem albo kilkoma, a spacja często „przykleja się" do tokenu.
 
+## Podgląd tokenów jeden po drugim
+
+Najlepsza intuicja powstaje, gdy po `encode` przechodzisz listę ID i dla każdego robisz `decode([id])`.
+
+Wtedy widać na żywo:
+
+- popularne słowa często są jednym tokenem (często ze spacją na początku, np. `" and"`, `" my"`),
+- rzadsze albo złożone słowa rozpadają się na fragmenty.
+
+Przykład: w zdaniu o „banoffee pie” tokenizer może zostawić popularne słowa jako osobne tokeny, a rzadkie „banoffee” rozbić np. na `" ban"` + `"offee"`. To ten sam mechanizm co przy innych rzadkich wyrazach: słownik nie musi znać całego słowa, wystarczą częste kawałki.
+
 ## Związek z predykcją
 
 LLM nie „pamięta" rozmowy ani nie „rozumie" w ludzkim sensie — przewiduje kolejne tokeny w sekwencji. Jeśli w sekwencji wejściowej jest informacja „nazywam się Ed", a później pytanie „jak mam na imię?", model z wysokim prawdopodobieństwem wygeneruje tokeny odpowiadające „Ed" — bo to najbardziej prawdopodobna kontynuacja całego ciągu.
